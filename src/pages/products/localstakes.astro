@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductHero from '../../components/ProductHero.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import { productBySlug } from '../../data/products';
+
+const product = productBySlug('localstakes');
+
+const steps = [
+  { title: 'Discover', text: 'Find a neighbourhood business that is raising support from its community.' },
+  { title: 'Back it together', text: 'Join other regulars from the neighbourhood in funding the business you love.' },
+  { title: 'Grow together', text: 'The business grows with its community behind it, and its regulars remain part of its story.' },
+];
+
+const audiences = [
+  {
+    title: 'For the community',
+    text: 'Help the places that make your neighbourhood yours: the café you start your day at, the gym you train in, the bakery you never walk past.',
+  },
+  {
+    title: 'For local businesses',
+    text: 'Raise the funds you need to grow from the people who already know and love you, and turn regulars into lifelong champions.',
+  },
+];
+---
+
+<Base
+  title="LocalStakes | Community-based funding for neighbourhood businesses"
+  description="LocalStakes is community-based funding for neighbourhood businesses in India. Regulars come together to help the local businesses they love grow."
+>
+  <ProductHero product={product}>
+    <Fragment slot="title">LocalStakes. <span class="serif">Back the neighbourhood spots you love.</span></Fragment>
+    <Fragment slot="lead">
+      Community-based funding for neighbourhood businesses. LocalStakes brings regulars together to help the cafés,
+      gyms, bakeries and salons they love grow.
+    </Fragment>
+  </ProductHero>
+
+  <section class="section section--white">
+    <div class="container problem">
+      <span class="eyebrow" data-reveal>Why LocalStakes</span>
+      <p class="problem__text" data-reveal>
+        Every neighbourhood has places people love. When those businesses want to grow, the people best placed to
+        help are <span class="serif">already walking through the door.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How it works</span>
+        <h2 class="h2" data-reveal>Local businesses, <span class="serif">backed by locals.</span></h2>
+      </div>
+      <ol class="steps steps--row" style="--cols: 3">
+        {
+          steps.map((step, i) => (
+            <li data-reveal style={`--delay: ${i * 80}ms`}>
+              <h3>{step.title}</h3>
+              <p class="muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="grid-2">
+        {
+          audiences.map((a, i) => (
+            <article class="card audience" data-reveal style={`--delay: ${i * 80}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{a.title}</h3>
+              <p class="muted">{a.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section demo" id="demo">
+    <div class="container demo__grid">
+      <div class="demo__intro">
+        <span class="eyebrow" data-reveal>Request a demo</span>
+        <h2 class="h2" data-reveal>See LocalStakes <span class="serif">in action.</span></h2>
+        <p class="lead" data-reveal>
+          Whether you run a neighbourhood business or want to partner with us, tell us a little about yourself and we'll
+          set up a walkthrough.
+        </p>
+      </div>
+      <div class="card demo__form" data-reveal>
+        <EnquiryForm variant="demo" product="LocalStakes" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .audience {
+    background: var(--paper);
+  }
+</style>

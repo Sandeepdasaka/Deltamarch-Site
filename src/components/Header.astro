@@ -1,0 +1,323 @@
+---
+import Logo from './Logo.astro';
+import Arrow from './Arrow.astro';
+import { nav } from '../data/site';
+import { products } from '../data/products';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__bar">
+    <a href="/" class="site-header__logo" aria-label="Deltamarch home">
+      <Logo tone="light" height={26} />
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {
+          nav.map((item) =>
+            item.href === '/products/' ? (
+              <li class="site-nav__item has-menu">
+                <a href={item.href} class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}>
+                  {item.label}
+                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                    <path d="M2 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                  </svg>
+                </a>
+                <div class="menu">
+                  <div class="menu__panel">
+                    {products.map((p) => (
+                      <a href={`/products/${p.slug}/`} class="menu__item">
+                        <span class="menu__name">{p.name}</span>
+                        <span class="menu__tag">{p.tagline}</span>
+                      </a>
+                    ))}
+                    <a href="/products/" class="menu__all link-arrow">
+                      All products <Arrow />
+                    </a>
+                  </div>
+                </div>
+              </li>
+            ) : (
+              <li class="site-nav__item">
+                <a href={item.href} class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}>
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
+        }
+      </ul>
+      <a href="/reach/" class="btn btn--light btn--sm site-nav__cta">Reach out <Arrow /></a>
+    </nav>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+      <span class="visually-hidden">Open menu</span>
+      <span class="menu-toggle__bars" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" hidden data-mobile-nav>
+    <div class="container">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li>
+          <a href="/products/">Products</a>
+          <ul class="mobile-nav__sub">
+            {products.map((p) => <li><a href={`/products/${p.slug}/`}>{p.name}</a></li>)}
+          </ul>
+        </li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/partners/">Partners</a></li>
+        <li><a href="/reach/">Reach out</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    color: var(--on-dark);
+    transition: background-color 0.4s var(--ease), border-color 0.4s, backdrop-filter 0.4s;
+    border-bottom: 1px solid transparent;
+  }
+
+  .site-header.is-scrolled,
+  .site-header.is-open {
+    background: rgba(5, 10, 20, 0.78);
+    border-bottom-color: var(--line-dark);
+    backdrop-filter: saturate(160%) blur(18px);
+    -webkit-backdrop-filter: saturate(160%) blur(18px);
+  }
+
+  .site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    padding: 6px 0;
+  }
+
+  .site-nav {
+    display: none;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .site-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--on-dark-muted);
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link.is-active {
+    color: var(--white);
+  }
+
+  .site-nav__link.is-active {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .has-menu {
+    position: relative;
+  }
+
+  .menu {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    padding-top: 12px;
+    transform: translate(-50%, 6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s;
+  }
+
+  .has-menu:hover .menu,
+  .has-menu:focus-within .menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  .menu__panel {
+    display: grid;
+    grid-template-columns: repeat(2, 240px);
+    gap: 4px;
+    padding: 10px;
+    border: 1px solid var(--line-dark);
+    border-radius: 20px;
+    background: rgba(10, 19, 36, 0.96);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  }
+
+  .menu__item {
+    display: grid;
+    gap: 4px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    transition: background-color 0.2s;
+  }
+
+  .menu__item:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .menu__name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--white);
+  }
+
+  .menu__tag {
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--on-dark-muted);
+  }
+
+  .menu__all {
+    grid-column: 1 / -1;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--accent-2);
+    border-top: 1px solid var(--line-dark);
+    margin-top: 4px;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .menu-toggle__bars,
+  .menu-toggle__bars::before,
+  .menu-toggle__bars::after {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease), opacity 0.2s;
+  }
+
+  .menu-toggle__bars {
+    position: relative;
+  }
+
+  .menu-toggle__bars::before,
+  .menu-toggle__bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .menu-toggle__bars::before {
+    top: -7px;
+  }
+
+  .menu-toggle__bars::after {
+    top: 7px;
+  }
+
+  .is-open .menu-toggle__bars {
+    background: transparent;
+  }
+
+  .is-open .menu-toggle__bars::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .is-open .menu-toggle__bars::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobile-nav {
+    height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    padding: 16px 0 40px;
+  }
+
+  .mobile-nav > .container > ul > li {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .mobile-nav > .container > ul > li > a {
+    display: block;
+    padding: 18px 0;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .mobile-nav__sub {
+    display: grid;
+    gap: 2px;
+    padding: 0 0 18px 2px;
+  }
+
+  .mobile-nav__sub a {
+    display: block;
+    padding: 6px 0;
+    color: var(--on-dark-muted);
+  }
+
+  @media (min-width: 960px) {
+    .site-nav {
+      display: flex;
+    }
+    .menu-toggle,
+    .mobile-nav {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+  const panel = document.querySelector<HTMLElement>('[data-mobile-nav]')!;
+
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('.visually-hidden')!.textContent = open ? 'Close menu' : 'Open menu';
+    panel.hidden = !open;
+    header.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+</script>

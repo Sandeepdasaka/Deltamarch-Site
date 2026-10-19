@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductHero from '../../components/ProductHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { productBySlug } from '../../data/products';
+
+const product = productBySlug('safe-ride');
+
+const steps = [
+  { title: 'Scan', text: 'Passengers scan the Safe Ride QR code in an auto or taxi.' },
+  { title: 'Know', text: "The vehicle's details appear instantly, so passengers know which vehicle they are in." },
+  { title: 'Rate or report', text: 'Passengers rate the ride, or report a problem, in a few taps.' },
+  { title: 'Accountability', text: 'Ratings and reports help the Telangana Police keep commercial transport transparent and accountable.' },
+];
+
+const benefits = [
+  { title: 'Transparency', text: 'Every passenger can identify the commercial vehicle they are travelling in.' },
+  { title: 'Accountability', text: 'Ratings and reports give the police a clear, direct signal from passengers.' },
+  { title: 'Safer cities', text: 'A simple QR scan makes urban transport safer for everyone on the road.' },
+];
+---
+
+<Base
+  title="Safe Ride | QR-based passenger safety, used by the Telangana Police"
+  description="Safe Ride (formerly My Auto is Safe) is a QR-based public safety platform used by the Telangana Police. Passengers scan to see vehicle details, rate rides and report problems."
+>
+  <ProductHero product={product} eyebrow="Public safety · Used by the Telangana Police">
+    <Fragment slot="title">Safe Ride. <span class="serif">Scan. Know. Ride safe.</span></Fragment>
+    <Fragment slot="lead">
+      Safe Ride (formerly <em>My Auto is Safe</em>) is a public safety platform used by the Telangana Police.
+      Passengers scan a QR code in an auto or taxi to see the vehicle's details, rate their ride and report problems.
+    </Fragment>
+  </ProductHero>
+
+  <section class="section section--white police">
+    <div class="container police__inner" data-reveal>
+      <img src="/images/partners/telangana-state-police.png" alt="Telangana State Police emblem" width="84" height="100" />
+      <p>
+        Developed for and used by the <strong>Telangana Police</strong> to bring transparency and accountability to
+        autos and taxis.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How it works</span>
+        <h2 class="h2" data-reveal>One scan, <span class="serif">a safer ride.</span></h2>
+      </div>
+      <ol class="steps steps--row" style="--cols: 4">
+        {
+          steps.map((step, i) => (
+            <li data-reveal style={`--delay: ${i * 80}ms`}>
+              <h3>{step.title}</h3>
+              <p class="muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Why it matters</span>
+        <h2 class="h2" data-reveal>Transparency on <span class="serif">every ride.</span></h2>
+      </div>
+      <div class="grid-3">
+        {
+          benefits.map((b, i) => (
+            <article class="card benefit" data-reveal style={`--delay: ${i * 80}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{b.title}</h3>
+              <p class="muted">{b.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Bring Safe Ride to your city." lead="Talk to us about Safe Ride for your city or department. We usually reply within one business day." />
+</Base>
+
+<style>
+  .police {
+    padding-block: clamp(48px, 6vw, 72px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .police__inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    max-width: 880px;
+  }
+
+  .police__inner img {
+    flex: none;
+    width: 72px;
+    height: auto;
+  }
+
+  .police__inner p {
+    font-size: clamp(19px, 2vw, 24px);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+
+  .benefit {
+    background: var(--paper);
+  }
+</style>

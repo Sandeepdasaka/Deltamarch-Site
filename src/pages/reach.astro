@@ -1,0 +1,193 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import Arrow from '../components/Arrow.astro';
+import { company, mapsEmbedUrl, mapsSearchUrl } from '../data/site';
+---
+
+<Base
+  title="Reach Out | Deltamarch"
+  description="Talk to Deltamarch on WhatsApp (+91 99088 43232) or email info@deltamarch.in. Offices in Secunderabad, India and Dover, USA."
+>
+  <PageHero eyebrow="Reach out">
+    <Fragment slot="title">Let's <span class="serif">talk.</span></Fragment>
+    <Fragment slot="lead">
+      A product demo, a security concern or a new project: we'd like to hear from you. We usually reply within one
+      business day.
+    </Fragment>
+    <div class="quick" data-reveal style="--delay: 280ms">
+      <a href={company.whatsappUrl} class="quick__item" target="_blank" rel="noopener">
+        <span class="quick__label">WhatsApp</span>
+        <span class="quick__value">{company.phoneDisplay}</span>
+        <span class="quick__hint">Start a chat <Arrow external /></span>
+      </a>
+      <a href={`mailto:${company.email}`} class="quick__item">
+        <span class="quick__label">Email</span>
+        <span class="quick__value">{company.email}</span>
+        <span class="quick__hint">Write to us <Arrow external /></span>
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section section--white" id="enquiry">
+    <div class="container enquiry-grid">
+      <div class="enquiry-grid__intro">
+        <span class="eyebrow" data-reveal>Send a message</span>
+        <h2 class="h2" data-reveal>Tell us what <span class="serif">you need.</span></h2>
+        <p class="lead" data-reveal>Fill in the form and the right person from our team will get back to you.</p>
+      </div>
+      <div class="card enquiry-grid__form" data-reveal>
+        <EnquiryForm variant="contact" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="offices">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Offices</span>
+        <h2 class="h2" data-reveal>Find <span class="serif">us.</span></h2>
+      </div>
+      <div class="grid-2">
+        {
+          company.offices.map((office, i) => (
+            <article class="office" data-reveal style={`--delay: ${i * 80}ms`}>
+              <div class="office__map">
+                <iframe
+                  title={`Map of the Deltamarch ${office.label} office`}
+                  src={mapsEmbedUrl(office.mapQuery)}
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <div class="office__body">
+                <h3 class="h3">{office.label}</h3>
+                <address>
+                  {office.lines.map((line) => (
+                    <span>{line}</span>
+                  ))}
+                </address>
+                <a href={mapsSearchUrl(office.mapQuery)} class="link-arrow" target="_blank" rel="noopener">
+                  Get directions <Arrow external />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .quick {
+    display: grid;
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  @media (min-width: 720px) {
+    .quick {
+      grid-template-columns: repeat(2, minmax(0, 420px));
+    }
+  }
+
+  .quick__item {
+    display: grid;
+    gap: 6px;
+    padding: 28px;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+
+  .quick__item:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .quick__label {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .quick__value {
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    overflow-wrap: anywhere;
+  }
+
+  .quick__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--on-dark-muted);
+  }
+
+  .enquiry-grid {
+    display: grid;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (min-width: 1020px) {
+    .enquiry-grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 80px;
+    }
+  }
+
+  .enquiry-grid__intro {
+    display: grid;
+    gap: 20px;
+  }
+
+  .enquiry-grid__form {
+    background: var(--paper);
+  }
+
+  .office {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+  }
+
+  .office__map {
+    aspect-ratio: 16 / 10;
+    background: #e9edf2;
+  }
+
+  .office__map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(0.9) contrast(1.05);
+    transition: filter 0.4s;
+  }
+
+  .office:hover .office__map iframe {
+    filter: none;
+  }
+
+  .office__body {
+    display: grid;
+    gap: 14px;
+    padding: clamp(24px, 3vw, 36px);
+  }
+
+  .office address {
+    display: grid;
+    font-style: normal;
+    color: var(--muted);
+  }
+</style>

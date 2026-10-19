@@ -1,0 +1,80 @@
+---
+import type { Partner } from '../data/partners';
+
+interface Props {
+  partners: Partner[];
+}
+const { partners } = Astro.props;
+---
+
+<ul class="partner-wall">
+  {
+    partners.map((p, i) => (
+      <li class="partner" data-reveal style={`--delay: ${(i % 6) * 50}ms`}>
+        <div class="partner__logo">
+          <img src={p.logo} alt={`${p.name} logo`} loading="lazy" />
+        </div>
+        <span class="partner__name">{p.name}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .partner-wall {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  @media (min-width: 720px) {
+    .partner-wall {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1020px) {
+    .partner-wall {
+      grid-template-columns: repeat(var(--partner-cols, 5), 1fr);
+    }
+  }
+
+  .partner {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    gap: 16px;
+    padding: 32px 20px 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    text-align: center;
+  }
+
+  .partner__logo {
+    display: grid;
+    place-items: center;
+    height: 72px;
+    width: 100%;
+  }
+
+  .partner__logo img {
+    max-height: 72px;
+    max-width: min(150px, 85%);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .partner:hover .partner__logo img {
+    transform: scale(1.05);
+  }
+
+  .partner__name {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+</style>

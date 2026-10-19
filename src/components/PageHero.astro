@@ -1,0 +1,29 @@
+---
+interface Props {
+  eyebrow: string;
+  compact?: boolean;
+}
+const { eyebrow, compact = true } = Astro.props;
+---
+
+<section class:list={['hero', { 'hero--compact': compact }]}>
+  <div class="hero__bg" aria-hidden="true">
+    <span class="hero__glow hero__glow--a"></span>
+    <span class="hero__glow hero__glow--b"></span>
+  </div>
+  <div class="container">
+    <div class="hero__inner">
+      <span class="eyebrow" data-reveal>{eyebrow}</span>
+      <h1 class:list={[compact ? 'h1' : 'display']} data-reveal style="--delay: 80ms"><slot name="title" /></h1>
+      <p class="lead" data-reveal style="--delay: 160ms"><slot name="lead" /></p>
+      {
+        Astro.slots.has('actions') && (
+          <div class="btn-row hero__actions" data-reveal style="--delay: 240ms">
+            <slot name="actions" />
+          </div>
+        )
+      }
+    </div>
+    <slot />
+  </div>
+</section>
