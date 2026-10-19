@@ -68,3 +68,17 @@ npm run build      # outputs the site to dist/
 
 The `.htaccess` makes the old addresses (`/about`, `/products`, `/partners`, `/reach`) redirect to
 the new pages, serves a proper 404 page, and sets caching and security headers.
+
+## deltamarch.com redirect
+
+`.htaccess` permanently redirects `deltamarch.com` and `www.deltamarch.com` to the same page on
+`https://deltamarch.in` (for example `deltamarch.com/reach/` → `deltamarch.in/reach/`).
+For this to work, deltamarch.com must reach this hosting account:
+
+1. **GoDaddy → deltamarch.com → DNS:** set the `A` record for `@` to the cPanel server
+   (`162.222.225.153` at the time of writing) and keep `www` as a `CNAME` to `deltamarch.com`.
+   Remove any GoDaddy "Forwarding" on the domain.
+2. **cPanel → Domains → Create A New Domain:** add `deltamarch.com` and tick
+   **Share document root** with deltamarch.in.
+3. **cPanel → SSL/TLS Status:** run AutoSSL so `https://deltamarch.com` has a certificate.
+   `/.well-known/` is not redirected, so certificate checks work.

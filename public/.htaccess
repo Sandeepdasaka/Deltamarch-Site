@@ -7,6 +7,12 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # deltamarch.com (with or without www) -> the same page on deltamarch.in.
+  # /.well-known/ is left alone so cPanel AutoSSL can issue the .com certificate.
+  RewriteCond %{HTTP_HOST} ^(www\.)?deltamarch\.com$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteRule ^ https://deltamarch.in%{REQUEST_URI} [R=301,L]
+
   # Old site routes without a trailing slash, e.g. /about -> /about/
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}/index.html -f
