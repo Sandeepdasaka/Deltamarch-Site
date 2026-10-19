@@ -1,0 +1,17 @@
+---
+// Shown after a form is sent without JavaScript (the PHP handler redirects here).
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Arrow from '../components/Arrow.astro';
+---
+
+<Base title="Thank you | Deltamarch" description="Your message has been sent to Deltamarch." noindex>
+  <PageHero eyebrow="Message sent">
+    <Fragment slot="title">Thank you. <span class="serif">We'll be in touch.</span></Fragment>
+    <Fragment slot="lead">We've received your message and will get back to you within one business day.</Fragment>
+    <Fragment slot="actions">
+      <a href="/" class="btn btn--light">Back to home <Arrow /></a>
+      <a href="/products/" class="btn btn--ghost-dark">Explore our products</a>
+    </Fragment>
+  </PageHero>
+</Base>

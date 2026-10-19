@@ -1,0 +1,102 @@
+---
+import Arrow from './Arrow.astro';
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+  eyebrow?: string;
+}
+const { product, eyebrow = product.category } = Astro.props;
+const cta = product.cta;
+---
+
+<section class="hero hero--compact product-hero">
+  <div class="hero__bg" aria-hidden="true">
+    <span class="hero__glow hero__glow--a"></span>
+    <span class="hero__glow hero__glow--b"></span>
+  </div>
+  <div class="container product-hero__grid">
+    <div class="hero__inner">
+      <a href="/products/" class="product-hero__back" data-reveal>← All products</a>
+      <span class="eyebrow" data-reveal>{eyebrow}</span>
+      <h1 class="h1" data-reveal style="--delay: 80ms"><slot name="title" /></h1>
+      <p class="lead" data-reveal style="--delay: 160ms"><slot name="lead" /></p>
+      <div class="btn-row hero__actions" data-reveal style="--delay: 240ms">
+        {
+          cta.kind === 'demo' && (
+            <>
+              <a href="#demo" class="btn btn--light">Request a demo <Arrow /></a>
+              <a href="/reach/" class="btn btn--ghost-dark">Talk to us</a>
+            </>
+          )
+        }
+        {
+          cta.kind === 'external' && (
+            <>
+              <a href={cta.href} class="btn btn--light" target="_blank" rel="noopener">
+                {cta.label} <Arrow external />
+              </a>
+              <a href="/reach/" class="btn btn--ghost-dark">Talk to us</a>
+            </>
+          )
+        }
+        {
+          cta.kind === 'contact' && (
+            <a href="/reach/" class="btn btn--light">Talk to us <Arrow /></a>
+          )
+        }
+      </div>
+    </div>
+    <div class="product-hero__plate" data-reveal style="--delay: 200ms">
+      <img src={product.logo} alt={product.logoAlt} class={`logo-${product.slug}`} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-hero__grid {
+    display: grid;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (min-width: 1020px) {
+    .product-hero__grid {
+      grid-template-columns: 1.25fr 0.75fr;
+    }
+  }
+
+  .product-hero__back {
+    font-size: 14px;
+    color: var(--on-dark-muted);
+    transition: color 0.2s;
+  }
+
+  .product-hero__back:hover {
+    color: var(--white);
+  }
+
+  .product-hero__plate {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border-radius: calc(var(--radius) + 6px);
+    background: radial-gradient(120% 100% at 50% 0%, #ffffff 0%, #e9edf4 100%);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 60px 120px -40px rgba(91, 140, 255, 0.5);
+  }
+
+  .product-hero__plate img {
+    max-width: 66%;
+    max-height: 60%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .product-hero__plate .logo-localstakes {
+    max-height: 76%;
+  }
+</style>

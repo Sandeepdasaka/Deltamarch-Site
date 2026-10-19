@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { products } from '../../data/products';
+---
+
+<Base
+  title="Products | Deltamarch"
+  description="CrediHire, LocalStakes, Safe CheckIn and Safe Ride: products designed, built and run by Deltamarch."
+>
+  <PageHero eyebrow="Products">
+    <Fragment slot="title">Built by Deltamarch. <span class="serif">Run by Deltamarch.</span></Fragment>
+    <Fragment slot="lead">Four products, each solving one specific problem of trust, and each designed, engineered and operated by our own team.</Fragment>
+  </PageHero>
+
+  <section class="section section--dark products-list">
+    <div class="container">
+      <div class="grid-2">
+        {products.map((product, index) => <ProductCard product={product} index={index} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Want to see one of our products?" lead="Request a demo or ask us anything. We usually reply within one business day." />
+</Base>
+
+<style>
+  .products-list {
+    padding-top: 0;
+  }
+</style>

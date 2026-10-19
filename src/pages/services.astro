@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const cybersecurity = [
+  { title: 'Security assessments', text: 'A structured review of your security infrastructure, with clear, prioritised findings.' },
+  { title: 'Network security', text: 'Design, hardening and monitoring of your networks.' },
+  { title: 'Cybersecurity audits', text: 'Independent audits of your systems, controls and processes.' },
+  { title: 'Incident response', text: 'Help when it matters most, from containment to recovery.' },
+  { title: 'Threat intelligence', text: 'Stay ahead of the threats that are relevant to your business.' },
+  {
+    title: 'Certification readiness',
+    text: 'We help you prepare for and achieve the security certifications your customers and regulators expect.',
+  },
+  {
+    title: 'Managed security operations',
+    text: 'We run and manage your day-to-day cybersecurity operations, so your team can focus on the business.',
+  },
+];
+
+const itServices = [
+  { title: 'Product & software development', text: 'Web and cross-platform mobile applications, built to last.' },
+  { title: 'Custom AI solutions', text: 'AI applications built around your specific business problem.' },
+  { title: 'Cloud integration', text: 'Moving, connecting and running your workloads in the cloud.' },
+  { title: 'Platform management', text: 'Keeping enterprise platforms secure, current and available.' },
+];
+
+const engagement = [
+  { title: 'Discover', text: 'We understand the problem, the constraints and what success looks like.' },
+  { title: 'Design', text: 'We propose a plan with clear scope, timeline and cost.' },
+  { title: 'Deliver', text: 'We build, test and ship in short, visible iterations.' },
+  { title: 'Support', text: 'We stay on to run, secure and improve what we deliver.' },
+];
+---
+
+<Base
+  title="Services | Cybersecurity & IT Services | Deltamarch"
+  description="Cybersecurity and IT services from Deltamarch: assessments, audits, incident response, certification readiness, managed security operations, software, cloud and AI."
+>
+  <PageHero eyebrow="Services">
+    <Fragment slot="title">The engineering behind our products, <span class="serif">available for yours.</span></Fragment>
+    <Fragment slot="lead">Cybersecurity and IT services from the team that builds, secures and runs Deltamarch's own products.</Fragment>
+  </PageHero>
+
+  <section class="section section--white" id="cybersecurity">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>Cybersecurity</span>
+          <h2 class="h2" data-reveal>Protect what <span class="serif">you've built.</span></h2>
+        </div>
+        <p class="lead" data-reveal>
+          From a first assessment to running your security operations day to day, and helping you achieve the
+          certifications your business needs.
+        </p>
+      </div>
+      <div class="features" data-reveal>
+        {
+          cybersecurity.map((s) => (
+            <div class="feature">
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          ))
+        }
+        <div class="feature feature--cta">
+          <h3>Not sure where to start?</h3>
+          <p>A security assessment is the quickest way to know where you stand.</p>
+          <a href="/reach/#enquiry" class="link-arrow">Talk to us →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="it-services">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>IT Services</span>
+          <h2 class="h2" data-reveal>Dependable delivery, <span class="serif">first line to production.</span></h2>
+        </div>
+        <p class="lead" data-reveal>Software, cloud and AI work, delivered with the same care we put into our own products.</p>
+      </div>
+      <div class="grid-4">
+        {
+          itServices.map((s, i) => (
+            <article class="card" data-reveal style={`--delay: ${i * 70}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{s.title}</h3>
+              <p class="muted">{s.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How we engage</span>
+        <h2 class="h2" data-reveal>Clear steps, <span class="serif">no surprises.</span></h2>
+      </div>
+      <ol class="steps steps--row" style="--cols: 4">
+        {
+          engagement.map((step, i) => (
+            <li data-reveal style={`--delay: ${i * 80}ms`}>
+              <h3>{step.title}</h3>
+              <p class="muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand title="Let's talk about your project." />
+</Base>
+
+<style>
+  .stack {
+    display: grid;
+    gap: 20px;
+  }
+
+  .feature--cta {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  @media (min-width: 1020px) {
+    .feature--cta {
+      grid-column: span 2;
+    }
+  }
+
+  .feature--cta p {
+    color: var(--on-dark-muted);
+  }
+
+  .feature--cta .link-arrow {
+    margin-top: 10px;
+    color: var(--accent-2);
+  }
+</style>

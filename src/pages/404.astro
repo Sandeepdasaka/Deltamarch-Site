@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Arrow from '../components/Arrow.astro';
+---
+
+<Base title="Page not found | Deltamarch" description="The page you were looking for could not be found." noindex>
+  <PageHero eyebrow="404">
+    <Fragment slot="title">This page has <span class="serif">moved on.</span></Fragment>
+    <Fragment slot="lead">The page you were looking for doesn't exist. Try one of these instead.</Fragment>
+    <Fragment slot="actions">
+      <a href="/" class="btn btn--light">Back to home <Arrow /></a>
+      <a href="/products/" class="btn btn--ghost-dark">Our products</a>
+      <a href="/reach/" class="btn btn--ghost-dark">Reach out</a>
+    </Fragment>
+  </PageHero>
+</Base>

@@ -1,0 +1,307 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { company } from '../data/site';
+import { leadership } from '../data/leadership';
+
+const focus = [
+  { title: 'Product Development', text: 'Our own products, designed, engineered and operated in-house.' },
+  { title: 'Cybersecurity', text: 'Protecting systems, networks and data for our clients and in everything we ship.' },
+  { title: 'IT Services', text: 'Dependable software, cloud and AI delivery for organisations.' },
+];
+
+const principles = [
+  {
+    title: 'Security by design',
+    text: "Security is part of the first sketch, not the last checklist. Our products mask sensitive identifiers, keep tamper-proof audit trails and don't store what they don't need.",
+  },
+  {
+    title: 'Built for India',
+    text: 'Our products are designed around Indian identity, legal and public-safety systems, and the people who use them every day.',
+  },
+  {
+    title: 'Accountable by default',
+    text: 'Every product we build leaves a clear, auditable record of who did what, and gives people a fair way to raise a dispute.',
+  },
+  {
+    title: 'Long-term ownership',
+    text: "We don't hand over and walk away. We run what we build, and we keep improving it.",
+  },
+];
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+---
+
+<Base
+  title="About | Deltamarch"
+  description="Deltamarch is a product company founded in 2015, focused on product development, cybersecurity and IT services."
+>
+  <PageHero eyebrow="About Deltamarch">
+    <Fragment slot="title">A product company, <span class="serif">built on engineering trust.</span></Fragment>
+    <Fragment slot="lead">Founded in {company.founded} in Hyderabad. Focused on product development, cybersecurity and IT services.</Fragment>
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container story">
+      <div class="story__label">
+        <span class="eyebrow" data-reveal>Our story</span>
+      </div>
+      <div class="story__body">
+        <p class="story__lede" data-reveal>
+          Deltamarch was founded in {company.founded} with a simple belief: technology should make everyday systems{' '}
+          <span class="serif">safer, fairer and more accountable.</span>
+        </p>
+        <p data-reveal>
+          We began by delivering IT and security work for government, enterprise and academic partners. That work taught
+          us where systems break down: where information is missing, where trust is assumed instead of verified, and
+          where accountability has no channel. Those gaps became our products.
+        </p>
+        <p data-reveal>
+          Today Deltamarch is a product company. We build and operate our own platforms, CrediHire, LocalStakes, Safe
+          CheckIn and Safe Ride, and we continue to offer cybersecurity and IT services to organisations that want the
+          same rigour applied to their own systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>What we focus on</span>
+          <h2 class="h2" data-reveal>Three disciplines. <span class="serif">One mission.</span></h2>
+        </div>
+        <p class="lead" data-reveal>
+          To build technology that people and institutions can trust, and to make that trust verifiable.
+        </p>
+      </div>
+      <div class="grid-3">
+        {
+          focus.map((f, i) => (
+            <article class="card" data-reveal style={`--delay: ${i * 80}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How we work</span>
+        <h2 class="h2" data-reveal>Principles we <span class="serif">build by.</span></h2>
+      </div>
+      <div class="principles">
+        {
+          principles.map((p, i) => (
+            <div class="principle" data-reveal style={`--delay: ${(i % 2) * 80}ms`}>
+              <h3 class="h3">{p.title}</h3>
+              <p class="muted">{p.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" id="leadership">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Leadership</span>
+        <h2 class="h2" data-reveal>The people <span class="serif">behind Deltamarch.</span></h2>
+      </div>
+      <div class="grid-3">
+        {
+          leadership.map((person, i) => (
+            <article class="leader" data-reveal style={`--delay: ${i * 80}ms`}>
+              <div class="leader__photo">
+                {person.photo ? (
+                  <img src={person.photo} alt={person.name} loading="lazy" />
+                ) : (
+                  <span aria-hidden="true">{initials(person.name)}</span>
+                )}
+              </div>
+              <h3 class="leader__name">{person.name}</h3>
+              <p class="leader__title">{person.title}</p>
+              <p class="muted leader__bio">{person.bio}</p>
+              {person.linkedin && (
+                <a href={person.linkedin} class="link-arrow leader__link" target="_blank" rel="noopener">
+                  LinkedIn
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <dl class="facts" data-reveal>
+        <div><dt>Founded</dt><dd>{company.founded}</dd></div>
+        <div><dt>Headquarters</dt><dd>Secunderabad, Telangana, India</dd></div>
+        <div><dt>International office</dt><dd>Dover, Delaware, USA</dd></div>
+        <div><dt>Focus</dt><dd>Product Development · Cybersecurity · IT Services</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .stack {
+    display: grid;
+    gap: 20px;
+  }
+
+  .story {
+    display: grid;
+    gap: 32px;
+  }
+
+  @media (min-width: 1020px) {
+    .story {
+      grid-template-columns: 0.35fr 1fr;
+    }
+  }
+
+  .story__body {
+    display: grid;
+    gap: 24px;
+    max-width: 820px;
+    font-size: 18.5px;
+    color: var(--muted);
+  }
+
+  .story__lede {
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    color: var(--text);
+  }
+
+  .principles {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border-block: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    .principles {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .principle {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: clamp(28px, 4vw, 48px) clamp(0px, 3vw, 40px) clamp(28px, 4vw, 48px) 0;
+    background: var(--paper);
+  }
+
+  @media (min-width: 900px) {
+    .principle:nth-child(even) {
+      padding-left: clamp(24px, 4vw, 48px);
+    }
+  }
+
+  .leader {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+
+  .leader__photo {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    margin-bottom: 18px;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: linear-gradient(160deg, var(--ink-3), var(--ink));
+    color: var(--on-dark-muted);
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .leader__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .leader__name {
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .leader__title {
+    font-weight: 500;
+    color: var(--accent-ink);
+    font-size: 15px;
+  }
+
+  .leader__bio {
+    margin-top: 6px;
+    font-size: 15.5px;
+  }
+
+  .leader__link {
+    margin-top: 8px;
+    font-size: 14.5px;
+  }
+
+  .facts {
+    display: grid;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    .facts {
+      grid-template-columns: 0.6fr 1fr 1fr 1.4fr;
+    }
+  }
+
+  .facts div {
+    padding: 24px 24px 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 900px) {
+    .facts div {
+      border-bottom: 0;
+    }
+  }
+
+  .facts dt {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .facts dd {
+    margin: 8px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+</style>

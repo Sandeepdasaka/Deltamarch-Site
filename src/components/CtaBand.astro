@@ -1,0 +1,26 @@
+---
+import Arrow from './Arrow.astro';
+import { company } from '../data/site';
+
+interface Props {
+  title?: string;
+  lead?: string;
+}
+const {
+  title = 'Have a problem worth solving?',
+  lead = 'Tell us about it. We usually reply within one business day.',
+} = Astro.props;
+---
+
+<section class="section section--tight section--white">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <h2 class="h2">{title}</h2>
+      <p class="lead">{lead}</p>
+      <div class="btn-row">
+        <a href="/reach/#enquiry" class="btn btn--light">Send us a message <Arrow /></a>
+        <a href={company.whatsappUrl} class="btn btn--ghost-dark" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>

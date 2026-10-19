@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import PartnerWall from '../components/PartnerWall.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { partnerGroups } from '../data/partners';
+---
+
+<Base
+  title="Partners | Deltamarch"
+  description="Deltamarch works with government bodies, industry leaders and academic institutions, including the Government of Telangana, Telangana State Police, IIIT Hyderabad, Tech Mahindra and Airtel."
+>
+  <PageHero eyebrow="Partners">
+    <Fragment slot="title">In good <span class="serif">company.</span></Fragment>
+    <Fragment slot="lead">
+      Deltamarch works with government bodies, industry leaders and academic institutions to deliver technology that
+      serves people at scale.
+    </Fragment>
+  </PageHero>
+
+  {
+    partnerGroups.map((group, i) => (
+      <section class:list={['section', 'section--tight', { 'section--white': i % 2 === 0 }]}>
+        <div class="container">
+          <div class="group-head">
+            <h2 class="h3" data-reveal>{group.title}</h2>
+            <span class="muted" data-reveal>{group.partners.length} partners</span>
+          </div>
+          <div style="--partner-cols: 6">
+            <PartnerWall partners={group.partners} />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaBand title="Want to work with us?" lead="We're always open to new partnerships. We usually reply within one business day." />
+</Base>
+
+<style>
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .group-head span {
+    font-size: 14px;
+  }
+</style>

@@ -1,0 +1,237 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import ProductCard from '../components/ProductCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { company } from '../data/site';
+import { products } from '../data/products';
+import { allPartners } from '../data/partners';
+
+const pillars = [
+  {
+    title: 'Product Development',
+    text: 'We take products from idea to launch, then keep running them. It is how we built CrediHire, LocalStakes, Safe CheckIn and Safe Ride.',
+    points: ['Product strategy & design', 'Web & mobile engineering', 'Cloud operations'],
+  },
+  {
+    title: 'Cybersecurity',
+    text: 'Assessments, audits and incident response, plus help achieving certifications and running security operations.',
+    points: ['Security assessments & audits', 'Network security', 'Managed security operations'],
+  },
+  {
+    title: 'IT Services',
+    text: 'Dependable software, cloud and AI delivery for organisations that need it done right.',
+    points: ['Software development', 'Cloud integration', 'Custom AI solutions'],
+  },
+];
+---
+
+<Base
+  title="Deltamarch | Product Development, Cybersecurity & IT Services"
+  description="Deltamarch is a Secunderabad-based product company building CrediHire, LocalStakes, Safe CheckIn and Safe Ride, with cybersecurity and IT services for organisations. Since 2015."
+>
+  <section class="hero home-hero">
+    <div class="hero__bg" aria-hidden="true">
+      <span class="hero__glow hero__glow--a"></span>
+      <span class="hero__glow hero__glow--b"></span>
+    </div>
+    <div class="container">
+      <div class="hero__inner">
+        <span class="eyebrow" data-reveal>Product company · Since {company.founded}</span>
+        <h1 class="display" data-reveal style="--delay: 80ms">
+          Engineering <span class="serif gradient-text">trust</span> into everyday systems.
+        </h1>
+        <p class="lead" data-reveal style="--delay: 160ms">
+          Deltamarch designs, builds and runs software products for hiring, local communities and public safety, and
+          brings the same engineering discipline to cybersecurity and IT services.
+        </p>
+        <div class="btn-row hero__actions" data-reveal style="--delay: 240ms">
+          <a href="/products/" class="btn btn--light">Explore our products <Arrow /></a>
+          <a href="/reach/" class="btn btn--ghost-dark">Reach out</a>
+        </div>
+      </div>
+
+      <dl class="stats home-hero__stats" data-reveal style="--delay: 320ms">
+        <div class="stat"><dt class="stat__label">Building since</dt><dd class="stat__value">{company.founded}</dd></div>
+        <div class="stat"><dt class="stat__label">Products</dt><dd class="stat__value">{products.length}</dd></div>
+        <div class="stat"><dt class="stat__label">Partners</dt><dd class="stat__value">{allPartners.length}</dd></div>
+        <div class="stat"><dt class="stat__label">Offices in India &amp; USA</dt><dd class="stat__value">{company.offices.length}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--dark products-section">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>Our products</span>
+          <h2 class="h2" data-reveal>Four products. <span class="serif">One standard.</span></h2>
+        </div>
+        <p class="lead" data-reveal>
+          Each product solves one problem of trust: between employers and candidates, neighbourhoods and their local
+          businesses, hosts and the police, and passengers and drivers.
+        </p>
+      </div>
+      <div class="grid-2">
+        {products.map((product, index) => <ProductCard product={product} index={index} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack">
+          <span class="eyebrow" data-reveal>What we do</span>
+          <h2 class="h2" data-reveal>Three disciplines, <span class="serif">one team.</span></h2>
+        </div>
+        <p class="lead" data-reveal>
+          The engineers who build and secure our own products also build and secure yours.
+        </p>
+      </div>
+      <div class="grid-3">
+        {
+          pillars.map((pillar, i) => (
+            <article class="card" data-reveal style={`--delay: ${i * 80}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{pillar.title}</h3>
+              <p class="muted">{pillar.text}</p>
+              <ul class="check-list">
+                {pillar.points.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      <div class="center-link" data-reveal>
+        <a href="/services/" class="link-arrow">Explore our services <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--white partners-strip">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Partners</span>
+        <h2 class="h2" data-reveal>Trusted by government, industry <span class="serif">and academia.</span></h2>
+      </div>
+    </div>
+    <div class="marquee" data-reveal>
+      <ul class="marquee__track">
+        {
+          [...allPartners, ...allPartners].map((p, i) => (
+            <li aria-hidden={i >= allPartners.length ? 'true' : undefined}>
+              <img src={p.logo} alt={i < allPartners.length ? p.name : ''} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="container">
+      <div class="center-link" data-reveal>
+        <a href="/partners/" class="link-arrow">See all partners <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .home-hero {
+    padding-bottom: clamp(64px, 8vw, 104px);
+  }
+
+  .home-hero__stats {
+    margin: clamp(72px, 10vw, 136px) 0 0;
+  }
+
+  .home-hero__stats dd {
+    margin: 0;
+  }
+
+  .home-hero__stats .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .home-hero__stats .stat__label {
+    margin: 12px 0 0;
+  }
+
+  .products-section {
+    padding-top: clamp(40px, 6vw, 80px);
+  }
+
+  .stack {
+    display: grid;
+    gap: 20px;
+  }
+
+  .center-link {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+
+  .marquee__track {
+    display: flex;
+    align-items: center;
+    gap: clamp(48px, 6vw, 88px);
+    width: max-content;
+    padding: 12px 0;
+    animation: marquee 48s linear infinite;
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+
+  .marquee__track li {
+    flex: none;
+    display: grid;
+    place-items: center;
+    height: 64px;
+  }
+
+  .marquee__track img {
+    max-height: 56px;
+    max-width: 140px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(calc(-50% - clamp(48px, 6vw, 88px) / 2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    .marquee__track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: auto;
+      padding-inline: var(--gutter);
+    }
+    .marquee__track li[aria-hidden] {
+      display: none;
+    }
+  }
+</style>

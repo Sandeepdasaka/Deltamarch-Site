@@ -1,0 +1,289 @@
+---
+// One form for both "Request a demo" and general enquiries.
+// Posts to /send-enquiry.php, which emails the details to Deltamarch.
+import Arrow from './Arrow.astro';
+import { company } from '../data/site';
+
+interface Props {
+  variant: 'demo' | 'contact';
+  /** Product name for demo requests, e.g. "CrediHire". */
+  product?: string;
+}
+const { variant, product } = Astro.props;
+const isDemo = variant === 'demo';
+const id = isDemo ? `demo-${product?.toLowerCase().replace(/\s+/g, '-')}` : 'contact';
+const topics = ['Products', 'Cybersecurity', 'IT services', 'Partnership', 'Other'];
+---
+
+<form class="enquiry" action="/send-enquiry.php" method="post" data-enquiry novalidate>
+  <input type="hidden" name="form_type" value={variant} />
+  {isDemo && <input type="hidden" name="product" value={product} />}
+  <input type="hidden" name="started" value="" data-started />
+  <div class="enquiry__trap" aria-hidden="true">
+    <label for={`${id}-website`}>Leave this empty</label>
+    <input id={`${id}-website`} type="text" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="enquiry__grid">
+    <div class="field">
+      <label for={`${id}-name`}>Full name <span aria-hidden="true">*</span></label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required maxlength="120" />
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>{isDemo ? 'Work email' : 'Email'} <span aria-hidden="true">*</span></label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" required maxlength="160" />
+    </div>
+    <div class="field">
+      <label for={`${id}-phone`}>Phone {isDemo ? <span aria-hidden="true">*</span> : <span class="opt">(optional)</span>}</label>
+      <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" maxlength="30" required={isDemo} />
+    </div>
+    <div class="field">
+      <label for={`${id}-company`}>Company {isDemo ? <span aria-hidden="true">*</span> : <span class="opt">(optional)</span>}</label>
+      <input id={`${id}-company`} name="company" type="text" autocomplete="organization" maxlength="160" required={isDemo} />
+    </div>
+    {
+      !isDemo && (
+        <div class="field field--full">
+          <label for={`${id}-topic`}>What is this about?</label>
+          <select id={`${id}-topic`} name="topic">
+            {topics.map((t) => <option value={t}>{t}</option>)}
+          </select>
+        </div>
+      )
+    }
+    <div class="field field--full">
+      <label for={`${id}-message`}>
+        {isDemo ? 'Anything we should know?' : 'Message'}{' '}
+        {isDemo ? <span class="opt">(optional)</span> : <span aria-hidden="true">*</span>}
+      </label>
+      <textarea
+        id={`${id}-message`}
+        name="message"
+        rows="5"
+        maxlength="4000"
+        required={!isDemo}
+        placeholder={isDemo ? 'Team size, timelines, what you want to see in the demo…' : ''}></textarea>
+    </div>
+  </div>
+
+  <div class="enquiry__foot">
+    <button type="submit" class="btn" data-submit>
+      <span data-label>{isDemo ? `Request a ${product} demo` : 'Send message'}</span>
+      <Arrow />
+    </button>
+    <p class="enquiry__note">We only use these details to respond to you.</p>
+  </div>
+
+  <p class="enquiry__status" role="status" aria-live="polite" data-status></p>
+
+  <div class="enquiry__done" hidden data-done tabindex="-1">
+    <h3 class="h3">Thank you. We've received your {isDemo ? 'demo request' : 'message'}.</h3>
+    <p class="muted">
+      Our team will get back to you within one business day. For anything urgent, message us on{' '}
+      <a href={company.whatsappUrl} target="_blank" rel="noopener">WhatsApp</a>.
+    </p>
+  </div>
+</form>
+
+<style>
+  .enquiry {
+    position: relative;
+    display: grid;
+    gap: 28px;
+  }
+
+  .enquiry__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .enquiry__grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .enquiry__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 8px;
+  }
+
+  .field label {
+    font-size: 14px;
+    font-weight: 560;
+    color: var(--text);
+  }
+
+  .field label span[aria-hidden] {
+    color: var(--accent-ink);
+  }
+
+  .field .opt {
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--text);
+    font: inherit;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  .field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5l3.5 3.5 3.5-3.5' fill='none' stroke='%23566074' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent-ink);
+    box-shadow: 0 0 0 4px rgba(91, 140, 255, 0.18);
+  }
+
+  .field [aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .enquiry__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+  }
+
+  .enquiry__note {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .enquiry__status:empty {
+    display: none;
+  }
+
+  .enquiry__status {
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: rgba(194, 55, 47, 0.08);
+    color: var(--danger);
+    font-size: 15px;
+  }
+
+  .enquiry__status a {
+    text-decoration: underline;
+  }
+
+  .enquiry__done {
+    display: grid;
+    gap: 12px;
+    padding: 32px;
+    border-radius: var(--radius);
+    background: rgba(18, 128, 92, 0.07);
+    border: 1px solid rgba(18, 128, 92, 0.25);
+  }
+
+  .enquiry__done[hidden] {
+    display: none;
+  }
+
+  .enquiry__done a {
+    text-decoration: underline;
+  }
+
+  .enquiry.is-sent > :not(.enquiry__done) {
+    display: none;
+  }
+
+  button[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+</style>
+
+<script>
+  const fallback =
+    'Sorry, something went wrong and your message was not sent. Please email <a href="mailto:info@deltamarch.in">info@deltamarch.in</a> or message us on <a href="https://wa.me/919908843232" target="_blank" rel="noopener">WhatsApp</a>.';
+
+  document.querySelectorAll<HTMLFormElement>('form[data-enquiry]').forEach((form) => {
+    const started = form.querySelector<HTMLInputElement>('[data-started]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const label = submit.querySelector<HTMLElement>('[data-label]')!;
+    const done = form.querySelector<HTMLElement>('[data-done]')!;
+    started.value = String(Math.floor(Date.now() / 1000));
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.innerHTML = '';
+
+      const fields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]');
+      let firstInvalid: HTMLElement | null = null;
+      fields.forEach((field) => {
+        const valid = field.checkValidity() && field.value.trim() !== '';
+        field.setAttribute('aria-invalid', String(!valid));
+        if (!valid && !firstInvalid) firstInvalid = field;
+      });
+      if (firstInvalid) {
+        status.textContent = 'Please fill in the highlighted fields.';
+        (firstInvalid as HTMLElement).focus();
+        return;
+      }
+
+      const original = label.textContent;
+      submit.disabled = true;
+      label.textContent = 'Sending…';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const result = await response.json().catch(() => ({ ok: false }));
+        if (result.ok) {
+          form.classList.add('is-sent');
+          done.hidden = false;
+          done.focus();
+        } else if (result.error) {
+          // A validation message from the server, e.g. an invalid email address.
+          status.textContent = result.error;
+        } else {
+          status.innerHTML = fallback;
+        }
+      } catch {
+        status.innerHTML = fallback;
+      } finally {
+        submit.disabled = false;
+        label.textContent = original;
+      }
+    });
+  });
+</script>

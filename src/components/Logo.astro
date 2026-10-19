@@ -1,0 +1,13 @@
+---
+// The original Deltamarch logo (235x39 PNG), in its black or a white recolour.
+interface Props {
+  tone?: 'dark' | 'light';
+  height?: number;
+}
+
+const { tone = 'light', height = 28 } = Astro.props;
+const src = tone === 'light' ? '/images/brand/deltamarch-logo-white.png' : '/images/brand/deltamarch-logo.png';
+const width = Math.round((235 / 39) * height);
+---
+
+<img src={src} width={width} height={height} alt="Deltamarch" />

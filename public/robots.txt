@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deltamarch.in/sitemap-index.xml

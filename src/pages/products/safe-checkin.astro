@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductHero from '../../components/ProductHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Arrow from '../../components/Arrow.astro';
+import { productBySlug } from '../../data/products';
+
+const product = productBySlug('safe-checkin');
+
+const steps = [
+  { title: 'Record the visitor', text: 'Visitor details are captured when a guest checks in to a rental accommodation.' },
+  { title: 'Report in one click', text: 'A single click sends the visitor details to the appropriate local law enforcement agency.' },
+  { title: 'Stay compliant', text: 'Reporting is done without paperwork or station visits, and every check-in is accounted for.' },
+];
+
+const benefits = [
+  { title: 'Compliance in one click', text: 'Visitor reporting becomes part of check-in, not an extra chore for property owners.' },
+  { title: 'Smarter policing', text: 'Law enforcement receives timely, structured visitor information from rental accommodations.' },
+  { title: 'Safer stays', text: 'A secure, accountable environment for property owners and their guests alike.' },
+];
+---
+
+<Base
+  title="Safe CheckIn | AI-powered visitor reporting for rental accommodations"
+  description="Safe CheckIn is an AI-powered visitor management application for rental accommodations that reports visitor details to local law enforcement in a single click."
+>
+  <ProductHero product={product}>
+    <Fragment slot="title">Safe CheckIn. <span class="serif">Every guest, accounted for.</span></Fragment>
+    <Fragment slot="lead">
+      An AI-powered visitor management application for rental accommodations. With a single click, Safe CheckIn
+      automatically reports visitor details to the appropriate local law enforcement agency.
+    </Fragment>
+  </ProductHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How it works</span>
+        <h2 class="h2" data-reveal>Check in. Report. <span class="serif">Done.</span></h2>
+      </div>
+      <ol class="steps steps--row" style="--cols: 3">
+        {
+          steps.map((step, i) => (
+            <li data-reveal style={`--delay: ${i * 80}ms`}>
+              <h3>{step.title}</h3>
+              <p class="muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Why it matters</span>
+        <h2 class="h2" data-reveal>Safer stays, <span class="serif">smarter policing.</span></h2>
+      </div>
+      <div class="grid-3">
+        {
+          benefits.map((b, i) => (
+            <article class="card benefit" data-reveal style={`--delay: ${i * 80}ms`}>
+              <span class="card__num">0{i + 1}</span>
+              <h3 class="h3">{b.title}</h3>
+              <p class="muted">{b.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="visit" data-reveal>
+        <a href="https://safecheckin.in" class="btn" target="_blank" rel="noopener">Visit safecheckin.in <Arrow external /></a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Bring Safe CheckIn to your properties." lead="Talk to us about using Safe CheckIn. We usually reply within one business day." />
+</Base>
+
+<style>
+  .benefit {
+    background: var(--paper);
+  }
+
+  .visit {
+    margin-top: 48px;
+  }
+</style>

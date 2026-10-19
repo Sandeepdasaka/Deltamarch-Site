@@ -1,0 +1,105 @@
+---
+import Arrow from './Arrow.astro';
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+  index: number;
+}
+const { product, index } = Astro.props;
+---
+
+<a href={`/products/${product.slug}/`} class="product-card" data-reveal style={`--delay: ${index * 70}ms`}>
+  <div class="product-card__plate">
+    <img src={product.logo} alt={product.logoAlt} loading="lazy" class={`logo-${product.slug}`} />
+  </div>
+  <div class="product-card__body">
+    <span class="product-card__cat">{product.category}</span>
+    <h3 class="h3">{product.name}</h3>
+    <p class="product-card__tagline">{product.tagline}</p>
+    <p class="product-card__summary">{product.summary}</p>
+    <span class="link-arrow">Discover {product.name} <Arrow /></span>
+  </div>
+</a>
+
+<style>
+  .product-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+
+  .product-card:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    transform: translateY(-4px);
+    box-shadow: 0 40px 80px -40px rgba(91, 140, 255, 0.45);
+  }
+
+  .product-card__plate {
+    display: grid;
+    place-items: center;
+    height: clamp(180px, 20vw, 240px);
+    margin: 10px 10px 0;
+    border-radius: calc(var(--radius) - 8px);
+    background: radial-gradient(120% 100% at 50% 0%, #ffffff 0%, #eef1f6 100%);
+  }
+
+  .product-card__plate img {
+    max-width: 60%;
+    max-height: 62%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .product-card:hover .product-card__plate img {
+    transform: scale(1.04);
+  }
+
+  .product-card__plate .logo-safe-checkin {
+    max-width: 66%;
+  }
+
+  .product-card__plate .logo-localstakes {
+    max-height: 78%;
+  }
+
+  .product-card__body {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: clamp(24px, 3vw, 36px);
+  }
+
+  .product-card__cat {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .product-card__tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--on-dark);
+  }
+
+  .product-card__summary {
+    color: var(--on-dark-muted);
+    font-size: 15.5px;
+  }
+
+  .product-card .link-arrow {
+    margin-top: 14px;
+    color: var(--white);
+  }
+</style>

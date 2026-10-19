@@ -1,0 +1,144 @@
+---
+import Logo from './Logo.astro';
+import { company } from '../data/site';
+import { products } from '../data/products';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo tone="light" height={26} />
+        <p>Product development, cybersecurity and IT services. Since {company.founded}.</p>
+      </div>
+
+      <nav class="site-footer__cols" aria-label="Footer">
+        <div>
+          <h2>Products</h2>
+          <ul>
+            {products.map((p) => <li><a href={`/products/${p.slug}/`}>{p.name}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <ul>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/services/">Services</a></li>
+            <li><a href="/partners/">Partners</a></li>
+            <li><a href="/reach/">Reach out</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <ul>
+            <li><a href={company.whatsappUrl} target="_blank" rel="noopener">WhatsApp {company.phoneDisplay}</a></li>
+            <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          </ul>
+        </div>
+        {
+          company.offices.map((office) => (
+            <div>
+              <h2>{office.label}</h2>
+              <address>
+                {office.lines.map((line) => (
+                  <span>{line}</span>
+                ))}
+              </address>
+            </div>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {company.founded}–{year} {company.legalName}. All rights reserved.</p>
+      <p>CIN {company.cin}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--on-dark-muted);
+    padding-top: clamp(72px, 9vw, 120px);
+    font-size: 15px;
+  }
+
+  .site-footer__top {
+    display: grid;
+    gap: 56px;
+    padding-bottom: 64px;
+  }
+
+  @media (min-width: 1020px) {
+    .site-footer__top {
+      grid-template-columns: 0.8fr 2fr;
+    }
+  }
+
+  .site-footer__brand p {
+    margin-top: 20px;
+    max-width: 300px;
+  }
+
+  .site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 24px;
+  }
+
+  @media (min-width: 720px) {
+    .site-footer__cols {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1020px) {
+    .site-footer__cols {
+      grid-template-columns: repeat(5, auto);
+      justify-content: space-between;
+    }
+  }
+
+  .site-footer h2 {
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--on-dark);
+  }
+
+  .site-footer ul {
+    display: grid;
+    gap: 10px;
+  }
+
+  .site-footer a {
+    transition: color 0.2s;
+  }
+
+  .site-footer a:hover {
+    color: var(--white);
+  }
+
+  .site-footer address {
+    display: grid;
+    gap: 2px;
+    font-style: normal;
+    max-width: 220px;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding: 28px 0 36px;
+    border-top: 1px solid var(--line-dark);
+    font-size: 13.5px;
+  }
+</style>

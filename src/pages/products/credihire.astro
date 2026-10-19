@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductHero from '../../components/ProductHero.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import { productBySlug } from '../../data/products';
+
+const product = productBySlug('credihire');
+
+const steps = [
+  { title: 'Search by PAN', text: 'PAN is validated and used as the single identifier for every candidate.' },
+  { title: 'Review the Trust Profile', text: 'Hiring history, verification records, employment events and a timeline, in one view.' },
+  { title: 'Read the Trust Score', text: 'Recalculated automatically whenever a new event, verification or dispute outcome is recorded.' },
+  { title: 'Monitor', text: 'Add candidates to a watchlist and get alerts when something changes.' },
+];
+
+const features = [
+  { title: 'Trust Score Engine', text: 'Admin-configurable weights and risk thresholds, so the score reflects your hiring policy.' },
+  { title: 'Verification repository', text: 'Store verification records and manage report requests in one place.' },
+  { title: 'Candidate timeline', text: "Interactive and table views of a candidate's hiring and employment history." },
+  { title: 'Monitoring & alerts', text: 'Watchlists keep your team informed the moment something changes.' },
+  { title: 'Fair dispute process', text: 'Candidates raise disputes with evidence through their own portal and are kept informed until resolution.' },
+  { title: 'Immutable audit trail', text: 'Nothing is hard-deleted. Every action across the platform is recorded.' },
+  { title: 'Analytics & reports', text: 'Dashboards for your company, with PDF and CSV reports on demand.' },
+  { title: 'API Integration Hub', text: 'API keys, webhooks and usage logs to connect CrediHire with your HRMS.' },
+  { title: 'Role-based access', text: 'Company admin, HR user and read-only roles, enforced throughout.' },
+];
+---
+
+<Base
+  title="CrediHire | The Hiring Trust Network by Deltamarch"
+  description="Evaluate candidate reliability before you extend an offer. CrediHire brings PAN-based hiring history, verification records and a trust score into one profile."
+>
+  <ProductHero product={product}>
+    <Fragment slot="title">CrediHire. <span class="serif">Hire with evidence.</span></Fragment>
+    <Fragment slot="lead">
+      The Hiring Trust Network. Evaluate a candidate's reliability before you extend an offer, with hiring history,
+      verification records, employment events and a trust score in one profile, identified by PAN.
+    </Fragment>
+  </ProductHero>
+
+  <section class="section section--white">
+    <div class="container problem">
+      <span class="eyebrow" data-reveal>The problem</span>
+      <p class="problem__text" data-reveal>
+        Offers get accepted and then abandoned. Candidates go silent on joining day. And every employer finds out{' '}
+        <span class="serif">on their own.</span> CrediHire gives employers a shared, governed view of hiring reliability,
+        with a fair process for candidates to set the record straight.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>How it works</span>
+        <h2 class="h2" data-reveal>From PAN to a <span class="serif">confident decision.</span></h2>
+      </div>
+      <ol class="steps steps--row" style="--cols: 4">
+        {
+          steps.map((step, i) => (
+            <li data-reveal style={`--delay: ${i * 80}ms`}>
+              <h3>{step.title}</h3>
+              <p class="muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>Features</span>
+        <h2 class="h2" data-reveal>Everything a hiring team needs <span class="serif">to trust a decision.</span></h2>
+      </div>
+      <div class="features" data-reveal>
+        {
+          features.map((f) => (
+            <div class="feature">
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section demo" id="demo">
+    <div class="container demo__grid">
+      <div class="demo__intro">
+        <span class="eyebrow" data-reveal>Request a demo</span>
+        <h2 class="h2" data-reveal>See CrediHire <span class="serif">in action.</span></h2>
+        <p class="lead" data-reveal>
+          Tell us a little about your team. We'll walk you through CrediHire with examples relevant to your hiring.
+        </p>
+      </div>
+      <div class="card demo__form" data-reveal>
+        <EnquiryForm variant="demo" product="CrediHire" />
+      </div>
+    </div>
+  </section>
+</Base>
+
