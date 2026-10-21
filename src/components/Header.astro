@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import Arrow from './Arrow.astro';
+import WebmailLogin from './WebmailLogin.astro';
 import { nav } from '../data/site';
 import { products } from '../data/products';
 
@@ -53,10 +54,13 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
       <a href="/reach/" class="btn btn--light btn--sm site-nav__cta">Reach out <Arrow /></a>
     </nav>
 
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
-      <span class="visually-hidden">Open menu</span>
-      <span class="menu-toggle__bars" aria-hidden="true"></span>
-    </button>
+    <div class="site-header__actions">
+      <WebmailLogin />
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+        <span class="visually-hidden">Open menu</span>
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 
   <div class="mobile-nav" id="mobile-nav" hidden data-mobile-nav>
@@ -110,6 +114,14 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     display: none;
     align-items: center;
     gap: 28px;
+    margin-left: auto;
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 14px;
   }
 
   .site-nav__list {

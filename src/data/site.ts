@@ -9,6 +9,7 @@ export const company = {
   cin: 'U72200AP2015PTC097650',
   founded: 2015,
   email: 'info@deltamarch.in',
+  webmailUrl: 'https://webmail.deltamarch.in/',
   phoneDisplay: '+91 99088 43232',
   // wa.me opens a new chat in the WhatsApp app (phones) or WhatsApp Web (computers).
   whatsappUrl: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappGreeting)}`,
